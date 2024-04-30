@@ -173,7 +173,7 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
                     width: 3.w,
                   ),
                   Text(
-                    'Vegetariano',
+                    'No vegetariano',
                     style: AppTextStyles.body14,
                   ),
                 ],
