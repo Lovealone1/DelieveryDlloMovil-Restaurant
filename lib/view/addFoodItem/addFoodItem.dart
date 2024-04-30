@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delievery_restaurants/utils/colors.dart';
 import 'package:food_delievery_restaurants/utils/textStyles.dart';
+import 'package:food_delievery_restaurants/widgets/textfieldWidget.dart';
 import 'package:sizer/sizer.dart';
 
 class AddFoodItemScreen extends StatefulWidget {
@@ -66,7 +67,7 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
         SizedBox(
           height: 4.h,
         ),
-        FoodDetailsTextfield(
+        CommonTextfield(
           controller: foodNameController,
           title: 'Nombre ',
           hintText: 'Nombre de la comida ',
@@ -75,7 +76,7 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
         SizedBox(
           height: 2.h,
         ),
-        FoodDetailsTextfield(
+        CommonTextfield(
           controller: foodDescriptionController,
           title: 'Descripcion ',
           hintText: 'Descripcion de la comida',
@@ -84,7 +85,7 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
         SizedBox(
           height: 2.h,
         ),
-        FoodDetailsTextfield(
+        CommonTextfield(
           controller: foodPriceController,
           title: 'Precio ',
           hintText: 'Precio de la comida',
@@ -186,64 +187,3 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
   }
 }
 
-class FoodDetailsTextfield extends StatelessWidget {
-  const FoodDetailsTextfield(
-      {super.key,
-      required this.controller,
-      required this.title,
-      required this.hintText,
-      required this.keyboardType});
-  final TextEditingController controller;
-  final String title;
-  final String hintText;
-  final TextInputType keyboardType;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: AppTextStyles.body16Bold,
-        ),
-        SizedBox(
-          height: 0.8.h,
-        ),
-        TextField(
-          controller: controller,
-          cursorColor: black,
-          style: AppTextStyles.textFieldTextStyle,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 0, horizontal: 2.w),
-              hintText: hintText,
-              hintStyle: AppTextStyles.textFieldHintTextStyle,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: grey,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: black,
-                ),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                  color: grey,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: black))),
-        ),
-      ],
-    );
-  }
-}

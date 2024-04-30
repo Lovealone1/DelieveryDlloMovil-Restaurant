@@ -7,11 +7,48 @@ import 'package:food_delievery_restaurants/controller/provider/authProvider/Mobi
 import 'package:food_delievery_restaurants/view/authScreens/mobileLoginScreen.dart';
 import 'package:food_delievery_restaurants/view/authScreens/otpScreen.dart';
 import 'package:food_delievery_restaurants/view/bottomNavigationBar/bottomNavigationBar.dart';
+import 'package:food_delievery_restaurants/view/restaurantRegistrationScreen/restaurantRegistrationScreen.dart';
 import 'package:food_delievery_restaurants/view/signInLogicScreen/signInLoginScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class MobileAuthServices {
+  static checkRestaurantRegistration({required BuildContext context}) async {
+    bool restaurantIsRegistered = false;
+    try {
+      await firestore
+          .collection('Restaurant')
+          .where('restaurantUID', isEqualTo: auth.currentUser!.uid)
+          .get()
+          .then((value) {
+        value.size > 0
+            ? restaurantIsRegistered = true
+            : restaurantIsRegistered = false;
+        log('El restaurante ya está registrado = $restaurantIsRegistered');
+        if (restaurantIsRegistered) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            PageTransition(
+                child: const BottomNavigationBarDelievery(),
+                type: PageTransitionType.rightToLeft),
+            (route) => false,
+          );
+        } else {
+          Navigator.pushAndRemoveUntil(
+            context,
+            PageTransition(
+                child: const RestaurantRegistrationScreen(),
+                type: PageTransitionType.rightToLeft),
+            (route) => false,
+          );
+        }
+      });
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
+    }
+  }
+
   static bool checkAuthentication(BuildContext context) {
     User? user = auth.currentUser;
     if (user == null) {
@@ -21,11 +58,7 @@ class MobileAuthServices {
           (route) => false);
       return false;
     }
-    Navigator.pushAndRemoveUntil(
-        context,
-        PageTransition(
-            child: const BottomNavigationBarDelievery(), type: PageTransitionType.rightToLeft),
-        (route) => false);
+    checkRestaurantRegistration(context: context);
     return true;
   }
 

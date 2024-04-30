@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delievery_restaurants/utils/colors.dart';
 import 'package:food_delievery_restaurants/view/account/account.dart';
-import 'package:food_delievery_restaurants/view/addFoodItem/addFoodItem.dart';
+//import 'package:food_delievery_restaurants/view/addFoodItem/addFoodItem.dart';
 //import 'package:food_delievery_restaurants/view/home/homeScreen.dart';
 import 'package:food_delievery_restaurants/view/menuScreen/menuScreen.dart';
+import 'package:food_delievery_restaurants/view/restaurantRegistrationScreen/restaurantRegistrationScreen.dart';
 import 'package:food_delievery_restaurants/view/statusScreen/statusScreen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -21,7 +22,8 @@ class _BottomNavigationBarDelieveryState extends State<BottomNavigationBarDeliev
   List<Widget> _buildScreens(){
     return [
       //const HomeScreen(),
-      const AddFoodItemScreen(),
+      //const AddFoodItemScreen(),
+      const RestaurantRegistrationScreen(),
       const MenuScreen(),
       const StatusScreen(),
       const AccountScreen()
