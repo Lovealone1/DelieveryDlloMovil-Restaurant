@@ -4,11 +4,17 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delievery_restaurants/controller/provider/restaurantRegisterProvider/restaurantRegisterProvider.dart';
+import 'package:food_delievery_restaurants/controller/services/locationServices/locationServices.dart';
+import 'package:food_delievery_restaurants/controller/services/restaurantCRUDServices/restaurantCrudServices.dart';
+import 'package:food_delievery_restaurants/models/adress.dart';
+import 'package:food_delievery_restaurants/models/restaurantModel.dart';
 import 'package:food_delievery_restaurants/utils/colors.dart';
 import 'package:food_delievery_restaurants/utils/textStyles.dart';
 import 'package:food_delievery_restaurants/widgets/textfieldWidget.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:food_delievery_restaurants/constant/constant.dart';
 
 class RestaurantRegistrationScreen extends StatefulWidget {
   const RestaurantRegistrationScreen({super.key});
@@ -24,6 +30,7 @@ class _RestaurantRegistrationScreen
   TextEditingController restaurantLicenceNumberController =
       TextEditingController();
   CarouselController controller = CarouselController();
+  bool pressRestaurantRegistrationButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +138,43 @@ class _RestaurantRegistrationScreen
           keyboardType: TextInputType.name,
         ),
         SizedBox(
-          height: 2.h,
+          height: 35.h,
         ),
+        ElevatedButton(
+          onPressed: () async {
+            setState(() {
+              pressRestaurantRegistrationButton = true; 
+            });
+            await context
+                .read<RestaurantRegisterProvider>()
+                .updateRestaurantBannerImagesURL(context);
+            Position currentAddress =
+                await LocationServices.getCurrentLocation();
+                LocationServices.registerRestaurantLocationInGeofire();
+            RestaurantModel data = RestaurantModel(
+              restaurantName: restaurantNameController.text.trim(),
+              restaurantLicenseNumber:
+                  restaurantLicenceNumberController.text.trim(),
+              restaurantUID: auth.currentUser!.uid,
+              // ignore: use_build_context_synchronously
+              bannerImages: context
+                  .read<RestaurantRegisterProvider>()
+                  .restaurantBannerImagesURL,
+              address: AddressModel(
+                  latitude: currentAddress.latitude,
+                  longitude: currentAddress.longitude),
+            );
+            RestaurantCRUDServices.registerRestaurant(data, context);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: black,
+            minimumSize: Size(90.w, 6.h),
+          ),
+          child: pressRestaurantRegistrationButton? CircularProgressIndicator(color: white,) : Text(
+            'Registrar',
+            style: AppTextStyles.body16Bold.copyWith(color: white),
+          ),
+        )
       ],
     ));
   }

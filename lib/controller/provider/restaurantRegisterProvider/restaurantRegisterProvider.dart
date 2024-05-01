@@ -13,7 +13,7 @@ class RestaurantRegisterProvider extends ChangeNotifier{
   }
 
   updateRestaurantBannerImagesURL(BuildContext context)async{
-    restaurantBannerImages = await ImageServices.uploadImagesToFirebaseStorageNGetURL(images: restaurantBannerImages, context: context);
+    restaurantBannerImagesURL = await ImageServices.uploadImagesToFirebaseStorageNGetURL(images: restaurantBannerImages, context: context);
     notifyListeners();
   }
 }
