@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delievery_restaurants/controller/provider/addFoodProvider/addFoodProvider.dart';
 import 'package:food_delievery_restaurants/controller/provider/authProvider/MobileAuthProvider.dart';
 import 'package:food_delievery_restaurants/controller/provider/restaurantRegisterProvider/restaurantRegisterProvider.dart';
 import 'package:food_delievery_restaurants/firebase_options.dart';
@@ -29,6 +30,9 @@ class FoodDelievery extends StatelessWidget {
           ),
           ChangeNotifierProvider<RestaurantRegisterProvider>(
             create: (_) => RestaurantRegisterProvider(),
+          ),
+          ChangeNotifierProvider<AddFoodProvider>(
+            create: (_) => AddFoodProvider(),
           ),
         ],
         child: MaterialApp(

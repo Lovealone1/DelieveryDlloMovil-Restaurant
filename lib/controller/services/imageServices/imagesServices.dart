@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delievery_restaurants/controller/services/toastServices/toastMessageService.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:food_delievery_restaurants/constant/constant.dart';
@@ -18,7 +19,11 @@ class ImageServices {
         selectedImages.add(File(image.path));
       }
     } else {
-      //Show mensage
+      // ignore: use_build_context_synchronously
+      ToastService.sendScaffoldAlert(
+          msg: 'No se seleccionaron imagenes',
+          toastStatus: 'WARNING',
+          context: context);
     }
     log('Las imagenes estan \n ${selectedImages.toList().toString()}');
     return selectedImages;
@@ -36,6 +41,24 @@ class ImageServices {
       String imageURL = await ref.getDownloadURL();
       imagesURL.add(imageURL);
     });
-    return imagesURL; 
+    return imagesURL;
   }
+
+  static pickSingleImage({required BuildContext context}) async {
+    File? selectedImage;
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
+    XFile? filePick = pickedFile;
+    if (filePick != null) {
+      selectedImage = File(filePick.path);
+      return selectedImage;
+    } else {
+      // ignore: use_build_context_synchronously
+      ToastService.sendScaffoldAlert(
+          msg: 'No se seleccionó ninguna imagen',
+          toastStatus: 'WARNING',
+          context: context);
+    }
+  }
+
 }
