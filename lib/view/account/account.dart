@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:food_delievery_restaurants/controller/provider/restaurantRegisterProvider/restaurantRegisterProvider.dart';
+import 'package:food_delievery_restaurants/controller/services/authServices/mobileAuthServices.dart';
 import 'package:food_delievery_restaurants/utils/colors.dart';
 import 'package:food_delievery_restaurants/utils/textStyles.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -12,6 +15,13 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<RestaurantRegisterProvider>().getRestaurantData();
+    });
+  }
+
   List account = [
     [FontAwesomeIcons.shop, 'Tus pedidos'],
     [FontAwesomeIcons.heart, 'Tus favoritos'],
@@ -30,34 +40,50 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          physics: const BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       children: [
         SizedBox(
           height: 4.h,
         ),
-        Row(
-          children: [
-            CircleAvatar(
-              radius: 3.h,
-              backgroundColor: black,
-              child: CircleAvatar(
-                radius: 3.h-2,
-                backgroundColor: white,
-                child: FaIcon(
-                  FontAwesomeIcons.user,
-                  size: 3.h,
-                  color: grey,
+        Consumer<RestaurantRegisterProvider>(
+            builder: (context, restaurantProvider, child) {
+          if (restaurantProvider.restaurantData == null) {
+            return Row(
+              children: [
+                CircleAvatar(
+                  radius: 3.h,
+                  backgroundColor: black,
+                  child: CircleAvatar(
+                    radius: 3.h - 2,
+                    backgroundColor: white,
+                    child: FaIcon(
+                      FontAwesomeIcons.user,
+                      size: 3.h,
+                      color: grey,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(width: 10.w,),
-            Text(
-              'Nombre de usuario',
-              style: AppTextStyles.body16,
-            ),
-          ],
-        ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text(
+                  'Nombre de usuario',
+                  style: AppTextStyles.body16,
+                ),
+              ],
+            );
+          } else {
+            return Row(
+              children: [
+                Text(
+                  restaurantProvider.restaurantData!.restaurantName!,
+                  style: AppTextStyles.heading26Bold,
+                ),
+              ],
+            );
+          }
+        }),
         SizedBox(
           height: 2.h,
         ),
@@ -67,10 +93,15 @@ class _AccountScreenState extends State<AccountScreen> {
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return ListTile(
+                onTap: () {
+                  if (index == (account.length - 1)) {
+                    MobileAuthServices.signOut(context);
+                  }
+                },
                 leading: FaIcon(
                   account[index][0],
                   size: 3.h,
-                  color: black, 
+                  color: black,
                 ),
                 title: Text(
                   account[index][1],
