@@ -49,10 +49,10 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
           SizedBox(
             height: 1.h,
           ),
-          Consumer<AddFoodProvider>(builder: (context, AddFoodProvider, child) {
+          Consumer<FoodProvider>(builder: (context, FoodProvider, child) {
             return InkWell(
               onTap: () async {
-                await AddFoodProvider.pickFoodImageFromGallery(context);
+                await FoodProvider.pickFoodImageFromGallery(context);
               },
               child: Container(
                   height: 20.h,
@@ -64,11 +64,11 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
                   ),
                   child: Builder(
                     builder: (context) {
-                      if (AddFoodProvider.foodImage != null) {
+                      if (FoodProvider.foodImage != null) {
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 1.h),
                           child: Image(
-                            image: FileImage(AddFoodProvider.foodImage!),
+                            image: FileImage(FoodProvider.foodImage!),
                             fit: BoxFit.contain,
                           ),
                         );
@@ -233,7 +233,7 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
                 pressedAddFoodItemButton = true; 
               });
               await context
-                  .read<AddFoodProvider>()
+                  .read<FoodProvider>()
                   .uploadImageAndGetImageURL(context);
                   String foodID = uuid.v1().toString(); 
               AddFoodModel data = AddFoodModel(
@@ -242,11 +242,12 @@ class _AddFoodItemScreenState extends State<AddFoodItemScreen> {
                 foodID: foodID,
                 uploadTime: DateTime.now(),
                 description: foodDescriptionController.text.trim(),
-                foodImageURL: context.read<AddFoodProvider>().foodImageURL!,
+                foodImageURL: context.read<FoodProvider>().foodImageURL!,
                 isVegetarian: foodIsPureVegetarian,
                 price: foodPriceController.text.trim(),
               );
-              FoodDataCRUDServices.uploadFoodData(context, data);
+              await FoodDataCRUDServices.uploadFoodData(context, data);
+              await context.read<FoodProvider>().getFoodData();
             },
             child: pressedAddFoodItemButton
                 ? CircularProgressIndicator(

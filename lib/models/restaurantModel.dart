@@ -36,7 +36,7 @@ class RestaurantModel {
       restaurantUID:
           map['restaurantUID'] != null ? map['restaurantUID'] as String : null,
       bannerImages: map['bannerImages'] != null
-          ? List<String>.from((map['bannerImages'] as List<String>))
+          ? List<String>.from((map['bannerImages'] as List<dynamic>).cast<String>())
           : null,
       address: map['address'] != null
           ? AddressModel.fromMap(map['address'] as Map<String, dynamic>)

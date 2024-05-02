@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:food_delievery_restaurants/constant/constant.dart';
 import 'package:food_delievery_restaurants/models/restaurantModel.dart';
@@ -21,6 +22,20 @@ class RestaurantCRUDServices {
                 type: PageTransitionType.rightToLeft),
             (route) => false);
       });
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  static fetchRestaurantData() async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await firestore
+          .collection('Restaurant')
+          .doc(auth.currentUser!.uid)
+          .get();
+      RestaurantModel data = RestaurantModel.fromMap(snapshot.data()!);
+      return data;
     } catch (e) {
       log(e.toString());
       throw Exception(e);

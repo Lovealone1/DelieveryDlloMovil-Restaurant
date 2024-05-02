@@ -20,6 +20,7 @@ class FoodDataCRUDServices {
           toastStatus: 'SUCCESS',
           context: context,
         );
+        
       });
     } catch (e) {
       log(e.toString());

@@ -22,7 +22,7 @@ class _MenuScreenState extends State<MenuScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AddFoodProvider>().getFoodData();
+      context.read<FoodProvider>().getFoodData();
     });
   }
 
@@ -46,9 +46,9 @@ class _MenuScreenState extends State<MenuScreen> {
               color: white,
             ),
           ),
-          body: Consumer<AddFoodProvider>(
-              builder: (context, addFoodProvider, child) {
-            if (addFoodProvider.items.isEmpty) {
+          body: Consumer<FoodProvider>(
+              builder: (context, FoodProvider, child) {
+            if (FoodProvider.items.isEmpty) {
               return Center(
                 child: Text(
                   'Agrega platilos a tu menú',
@@ -57,12 +57,12 @@ class _MenuScreenState extends State<MenuScreen> {
               );
             } else {
               return ListView.builder(
-                  itemCount: addFoodProvider.items.length,
+                  itemCount: FoodProvider.items.length,
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
-                    AddFoodModel foodData = addFoodProvider.items[index];
+                    AddFoodModel foodData = FoodProvider.items[index];
                     return Container(
                       margin: EdgeInsets.symmetric(vertical: 1.5.h),
                       padding:

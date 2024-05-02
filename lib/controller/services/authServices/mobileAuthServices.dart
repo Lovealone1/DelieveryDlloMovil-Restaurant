@@ -99,12 +99,23 @@ class MobileAuthServices {
         smsCode: otp,
       );
       await auth.signInWithCredential(credential);
-      PageTransition(
+      Navigator.push(
+        context,
+        PageTransition(
           child: const SignInLogicScreen(),
-          type: PageTransitionType.rightToLeft);
+          type: PageTransitionType.rightToLeft,
+        ),
+      );
     } catch (e) {
       log(e.toString());
       throw Exception(e);
     }
+  }
+
+  static signOut(BuildContext context){
+    auth.signOut();
+    Navigator.of(context , rootNavigator: true).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context){
+      return const SignInLogicScreen();
+    }), (route) => false);
   }
 }

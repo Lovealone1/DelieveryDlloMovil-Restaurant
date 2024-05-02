@@ -6,7 +6,7 @@ import 'package:food_delievery_restaurants/controller/services/foodDataCRUDServi
 import 'package:food_delievery_restaurants/controller/services/imageServices/imagesServices.dart';
 import 'package:food_delievery_restaurants/models/addFoodModel/addFoodModel.dart';
 
-class AddFoodProvider extends ChangeNotifier{
+class FoodProvider extends ChangeNotifier{
   File? foodImage;
   String? foodImageURL; 
   List<AddFoodModel> items = [];
