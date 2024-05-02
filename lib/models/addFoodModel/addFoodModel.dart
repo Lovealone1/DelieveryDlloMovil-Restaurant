@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AddFoodModel {
   String name;
   String restaurantUID;
@@ -37,9 +39,7 @@ class AddFoodModel {
       restaurantUID:
           map['restaurantUID'] != null ? map['restaurantUID'] as String : '',
       foodID: map['foodID'] != null ? map['foodID'] as String : '',
-      uploadTime: map['uploadTime'] != null
-          ? DateTime.parse(map['uploadTime'] as String)
-          : DateTime.now(),
+      uploadTime: map['uploadTime'] != null ? (map['uploadTime'] as Timestamp).toDate() : DateTime.now(),
       description:
           map['description'] != null ? map['description'] as String : '',
       foodImageURL:
