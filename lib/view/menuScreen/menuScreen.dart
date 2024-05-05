@@ -109,9 +109,17 @@ class _MenuScreenState extends State<MenuScreen> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                'COP\$${foodData.price}',
-                                style: AppTextStyles.body16Bold
+                              Column(
+                                children: [
+                                  Text(
+                                    'COP\$${foodData.discountedPrice}',
+                                    style: AppTextStyles.body14.copyWith(decoration: TextDecoration.lineThrough, color: grey)
+                                  ),
+                                  Text(
+                                    'COP\$${foodData.actualPrice}',
+                                    style: AppTextStyles.body16Bold
+                                  ),
+                                ],
                               ),
                             ],
                           ),
