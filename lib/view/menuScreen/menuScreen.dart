@@ -6,6 +6,7 @@ import 'package:food_delievery_restaurants/models/addFoodModel/addFoodModel.dart
 import 'package:food_delievery_restaurants/utils/colors.dart';
 import 'package:food_delievery_restaurants/utils/textStyles.dart';
 import 'package:food_delievery_restaurants/view/addFoodItem/addFoodItem.dart';
+import 'package:food_delievery_restaurants/view/editFoodItem/editFoodItem.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -46,8 +47,7 @@ class _MenuScreenState extends State<MenuScreen> {
               color: white,
             ),
           ),
-          body: Consumer<FoodProvider>(
-              builder: (context, FoodProvider, child) {
+          body: Consumer<FoodProvider>(builder: (context, FoodProvider, child) {
             if (FoodProvider.items.isEmpty) {
               return Center(
                 child: Text(
@@ -63,67 +63,85 @@ class _MenuScreenState extends State<MenuScreen> {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     AddFoodModel foodData = FoodProvider.items[index];
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 1.5.h),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.sp),
-                        border: Border.all(
-                          color: black,
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: EditFoodItemScreen(
+                                    foodNameController: TextEditingController(text: foodData.name),
+                                    foodDescriptionController: TextEditingController(text: foodData.description),
+                                    discountedPriceController: TextEditingController(text: foodData.discountedPrice),
+                                    actualPriceController: TextEditingController(text: foodData.actualPrice),
+                                    foodIsPureVegetarian: foodData.isVegetarian,
+                                    restaurantUID: foodData.restaurantUID,
+                                    foodID: foodData.foodID,
+                                    foodImageURL: foodData.foodImageURL,),
+                                type: PageTransitionType.rightToLeft));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 1.5.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 2.w, vertical: 1.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.sp),
+                          border: Border.all(
+                            color: black,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 20.h,
-                            width: 100.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.sp),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                    foodData.foodImageURL,
-                                  ),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          Text(
-                            foodData.name,
-                            style: AppTextStyles.body14Bold,
-                          ),
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
-                          Text(
-                            foodData.description,
-                            style: AppTextStyles.small12.copyWith(
-                              color: grey,
-                            ),
-                          ),
-                          SizedBox(height: 1.h,),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    'COP\$${foodData.discountedPrice}',
-                                    style: AppTextStyles.body14.copyWith(decoration: TextDecoration.lineThrough, color: grey)
-                                  ),
-                                  Text(
-                                    'COP\$${foodData.actualPrice}',
-                                    style: AppTextStyles.body16Bold
-                                  ),
-                                ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 20.h,
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.sp),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      foodData.foodImageURL,
+                                    ),
+                                    fit: BoxFit.cover),
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              foodData.name,
+                              style: AppTextStyles.body14Bold,
+                            ),
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                            Text(
+                              foodData.description,
+                              style: AppTextStyles.small12.copyWith(
+                                color: grey,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text('COP\$${foodData.discountedPrice}',
+                                        style: AppTextStyles.body14.copyWith(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            color: grey)),
+                                    Text('COP\$${foodData.actualPrice}',
+                                        style: AppTextStyles.body16Bold),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   });

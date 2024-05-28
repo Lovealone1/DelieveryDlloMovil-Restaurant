@@ -20,10 +20,53 @@ class FoodDataCRUDServices {
           toastStatus: 'SUCCESS',
           context: context,
         );
-        
       });
     } catch (e) {
       log(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  static deleteFoodData(BuildContext context, AddFoodModel data) async {
+    try {
+      await firestore
+          .collection('Food')
+          .doc(data.foodID)
+          .delete()
+          .whenComplete(() {
+        Navigator.pop(context);
+        ToastService.sendScaffoldAlert(
+          msg: 'Platillo eliminado correctamente',
+          toastStatus: 'SUCCESS',
+          context: context,
+        );
+      });
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  static Future<void> updateFoodData(
+      BuildContext context, AddFoodModel data) async {
+    try {
+      await firestore.collection('Food').doc(data.foodID).update({
+        'name': data.name,
+        'description': data.description,
+        'actualPrice': data.actualPrice,
+        'discountedPrice': data.discountedPrice,
+        'isVegetarian': data.isVegetarian,
+        'foodImageURL': data.foodImageURL,
+      }).then((_) {
+        Navigator.pop(context);
+        ToastService.sendScaffoldAlert(
+          msg: 'Platillo actualizado correctamente',
+          toastStatus: 'SUCCESS',
+          context: context,
+        );
+      });
+    } catch (e) {
+      debugPrint(e.toString());
       throw Exception(e);
     }
   }
