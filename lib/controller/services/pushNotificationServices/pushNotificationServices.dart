@@ -1,8 +1,5 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:covefood_domiciliario/controller/services/pushNotificationServices/pushNotificationDialog.dart';
-import 'package:covefood_domiciliario/model/foodOrderModel.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:covefood_domiciliario/constant/constant.dart';
