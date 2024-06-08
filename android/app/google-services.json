@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "105302244532",
+    "project_id": "covefood-52c23",
+    "storage_bucket": "covefood-52c23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105302244532:android:843e05a1d405ec3980abe1",
+        "android_client_info": {
+          "package_name": "com.example.covefood_domiciliario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105302244532-iiqr3qld3ps2ltmni5t12f15s2v2u0mb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAWbcGqcQH68yKwGpJlV9jvcsmVAD-wJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105302244532-iiqr3qld3ps2ltmni5t12f15s2v2u0mb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "105302244532-l6ila0vu81n02rgcegp0t7vhs1es5rti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.covefoodUsers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105302244532:android:016a9aa06e1ca49780abe1",
+        "android_client_info": {
+          "package_name": "com.example.covefood_users"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105302244532-imb99i7tj9jn2vrrtunvi28f1a039thb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.covefood_users",
+            "certificate_hash": "b5fe8bc994b524369088e7707ad7a8158cacb7b2"
+          }
+        },
+        {
+          "client_id": "105302244532-iiqr3qld3ps2ltmni5t12f15s2v2u0mb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAWbcGqcQH68yKwGpJlV9jvcsmVAD-wJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105302244532-iiqr3qld3ps2ltmni5t12f15s2v2u0mb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "105302244532-l6ila0vu81n02rgcegp0t7vhs1es5rti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.covefoodUsers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

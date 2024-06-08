@@ -1,0 +1,69 @@
+name: covefood_domiciliario
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+  sizer: ^2.0.15
+  country_picker: ^2.0.25
+  font_awesome_flutter: ^10.7.0
+  pin_code_fields: ^8.0.1
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  page_transition: ^2.1.0
+  provider: ^6.1.2
+  flutter_geofire: ^2.0.3
+  geolocator: ^11.0.0
+  cloud_firestore: ^4.15.8
+  uuid: ^4.4.0
+  image_picker: ^1.0.8
+  firebase_storage: ^11.6.9
+  carousel_slider: ^4.2.1
+  flutter_styled_toast: ^2.2.1
+  google_maps_flutter: ^2.5.3
+  google_sign_in: ^6.2.1
+  firebase_database: ^10.4.9
+  flutter_swipe_button: ^2.1.1+1
+  firebase_messaging: ^14.7.19
+  persistent_bottom_nav_bar: ^5.0.2
+  flutter_local_notifications: ^17.1.2
+  just_audio: ^0.9.38
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  os: true
+  image_path: "assets/images/appIcon/logo.png"
+  adaptive_icon_foreground: "assets/images/appIcon/logo.png"
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/images/splashScreenImage/
+    - assets/images/appIcon/logo.png
+    - assets/sounds/
+  fonts: 
+    - family: UberMoveMedium
+      fonts: 
+        - asset: assets/fonts/UberMoveMedium.otf
+
+    - family: UberMoveBold
+      fonts: 
+        - asset: assets/fonts/UberMoveBold.otf
