@@ -1,12 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:covefood_domiciliario/constant/constant.dart';
+import 'package:covefood_domiciliario/controller/provider/rideProvider/rideProvider.dart';
+import 'package:covefood_domiciliario/controller/services/locationServices/locationServices.dart';
 import 'package:covefood_domiciliario/controller/services/orderServices/orderServices.dart';
 import 'package:covefood_domiciliario/model/foodOrderModel.dart';
 import 'package:covefood_domiciliario/utils/colors.dart';
 import 'package:covefood_domiciliario/utils/textStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class PushNotificationDialog {
@@ -94,7 +99,25 @@ class PushNotificationDialog {
                       activeTrackColor: Colors.green.shade200,
                       elevationThumb: 2,
                       elevationTrack: 2,
-                      onSwipe: () {
+                      onSwipe: ()async {
+                        Position delieveryGuyPosition =
+                            await LocationServices.getCurrentLocation();
+                        LatLng delieveryGuy = LatLng(
+                            delieveryGuyPosition.latitude,
+                            delieveryGuyPosition.longitude);
+                        LatLng restaurant = LatLng(
+                          foodOrderData.restaurantDetails.address!.latitude!,
+                          foodOrderData.restaurantDetails.address!.longitude!,
+                        );
+                        LatLng delievery = LatLng(
+                            foodOrderData.userAddress!.latitude,
+                            foodOrderData.userAddress!.longitude);
+                        context.read<RideProvider>().updateDelieveryLatLngs(
+                            delieveryGuy, restaurant, delievery);
+
+                        OrderServices.updateDriverProfileIntoFoodOrderModel(orderID, context);
+                        context.read<RideProvider>().fetchCurrentLocationToRestaurantPolyline(context);
+                        context.read<RideProvider>().fetchRestaurantLocationToDelieveryPolyline(context);
                         audioPlayer.stop();
                         Navigator.pop(context);
                       },

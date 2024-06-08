@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:covefood_domiciliario/constant/constant.dart';
 import 'package:covefood_domiciliario/controller/services/geoFireServices/geofireServices.dart';
 import 'package:covefood_domiciliario/controller/services/locationServices/locationServices.dart';
+import 'package:covefood_domiciliario/controller/services/orderServices/orderServices.dart';
 import 'package:covefood_domiciliario/model/driverModel/driverModel.dart';
+import 'package:covefood_domiciliario/model/foodOrderModel.dart';
 import 'package:covefood_domiciliario/utils/colors.dart';
 import 'package:covefood_domiciliario/utils/textStyles.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -108,32 +110,126 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          Expanded(
-            child: GoogleMap(
-              initialCameraPosition: initialCameraPosition,
-              mapType: MapType.normal,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              zoomControlsEnabled: true,
-              zoomGesturesEnabled: true,
-              onMapCreated: (GoogleMapController controller) async {
-                googleMapController.complete(controller);
-                mapController = controller;
-                Position currentPosition =
-                    await LocationServices.getCurrentLocation();
-                LatLng currentLatLong = LatLng(
-                  currentPosition.latitude,
-                  currentPosition.longitude,
-                );
-                CameraPosition cameraPosition = CameraPosition(
-                  target: currentLatLong,
-                  zoom: 14,
-                );
-                mapController!.animateCamera(
-                    CameraUpdate.newCameraPosition(cameraPosition));
-              },
-            ),
-          )
+          StreamBuilder(
+              stream: databaseReference.onValue,
+              builder: (context, event) {
+                if (event.data != null) {
+                  DriverModel driverData = DriverModel.fromMap(
+                      jsonDecode(jsonEncode(event.data!.snapshot.value))
+                          as Map<String, dynamic>);
+                  if (driverData.activeDelieveryRequestID != null) {
+                    return StreamBuilder(
+                      stream: FirebaseDatabase.instance
+                          .ref()
+                          .child(
+                              'Orders/${driverData.activeDelieveryRequestID}')
+                          .onValue,
+                      builder: (context, foodOrderEvent) {
+                        if (foodOrderEvent.data != null) {
+                          FoodOrderModel foodOrderData = FoodOrderModel.fromMap(
+                              jsonDecode(jsonEncode(
+                                      foodOrderEvent.data!.snapshot.value))
+                                  as Map<String, dynamic>);
+                              return Builder(builder: (context){
+                                if(foodOrderData.orderStatus == OrderServices.orderStatus(0)){
+                                  return Expanded(
+                      child: GoogleMap(
+                        initialCameraPosition: initialCameraPosition,
+                        mapType: MapType.normal,
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        zoomControlsEnabled: true,
+                        zoomGesturesEnabled: true,
+                        onMapCreated: (GoogleMapController controller) async {
+                          googleMapController.complete(controller);
+                          mapController = controller;
+                          Position currentPosition =
+                              await LocationServices.getCurrentLocation();
+                          LatLng currentLatLong = LatLng(
+                            currentPosition.latitude,
+                            currentPosition.longitude,
+                          );
+                          CameraPosition cameraPosition = CameraPosition(
+                            target: currentLatLong,
+                            zoom: 14,
+                          );
+                          mapController!.animateCamera(
+                              CameraUpdate.newCameraPosition(cameraPosition));
+                        },
+                      ),
+                    );
+                                }else{
+                                  return Expanded(
+                      child: GoogleMap(
+                        initialCameraPosition: initialCameraPosition,
+                        mapType: MapType.normal,
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        zoomControlsEnabled: true,
+                        zoomGesturesEnabled: true,
+                        onMapCreated: (GoogleMapController controller) async {
+                          googleMapController.complete(controller);
+                          mapController = controller;
+                          Position currentPosition =
+                              await LocationServices.getCurrentLocation();
+                          LatLng currentLatLong = LatLng(
+                            currentPosition.latitude,
+                            currentPosition.longitude,
+                          );
+                          CameraPosition cameraPosition = CameraPosition(
+                            target: currentLatLong,
+                            zoom: 14,
+                          );
+                          mapController!.animateCamera(
+                              CameraUpdate.newCameraPosition(cameraPosition));
+                        },
+                      ),
+                    );
+                                }
+                              });
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(color: black),
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    return Expanded(
+                      child: GoogleMap(
+                        initialCameraPosition: initialCameraPosition,
+                        mapType: MapType.normal,
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        zoomControlsEnabled: true,
+                        zoomGesturesEnabled: true,
+                        onMapCreated: (GoogleMapController controller) async {
+                          googleMapController.complete(controller);
+                          mapController = controller;
+                          Position currentPosition =
+                              await LocationServices.getCurrentLocation();
+                          LatLng currentLatLong = LatLng(
+                            currentPosition.latitude,
+                            currentPosition.longitude,
+                          );
+                          CameraPosition cameraPosition = CameraPosition(
+                            target: currentLatLong,
+                            zoom: 14,
+                          );
+                          mapController!.animateCamera(
+                              CameraUpdate.newCameraPosition(cameraPosition));
+                        },
+                      ),
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: black,
+                    ),
+                  );
+                }
+              }),
         ],
       )),
     );

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -48,6 +49,21 @@ class ProfileServices {
         return true;
       } else {
         return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  static getDelieveryPartnerProfileData() async {
+    try {
+      final shapshot =
+          await realTimeDatabaseRef.child('Driver/${auth.currentUser!.uid}').get();
+      if (shapshot.exists) {
+        DriverModel delieveryPartnerData = DriverModel.fromMap(
+            jsonDecode(jsonEncode(shapshot.value)) as Map<String, dynamic>);
+        return delieveryPartnerData;
       }
     } catch (e) {
       log(e.toString());

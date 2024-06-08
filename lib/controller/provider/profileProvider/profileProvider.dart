@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:covefood_domiciliario/controller/services/imageServices/imageServices.dart';
+import 'package:covefood_domiciliario/controller/services/profileServices/profileServices.dart';
 import 'package:covefood_domiciliario/model/driverModel/driverModel.dart';
 import 'package:flutter/material.dart';
 
@@ -27,5 +28,8 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateDriverProfile() async {}
+  updateDriverProfile() async {
+    driverProfile = await ProfileServices.getDelieveryPartnerProfileData();
+    notifyListeners();
+  }
 }
